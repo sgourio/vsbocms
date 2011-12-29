@@ -1,0 +1,24 @@
+#{extends 'vsbo/layout.html' /}
+
+#{set 'moreStyles'}
+	<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/jquery.treeview.css'}">
+#{/set}
+#{set 'moreScripts'}
+	<script src="@{'/public/javascripts/jquery.treeview.js'}" ></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#folderTree").treeview();
+	 	});
+	</script>
+#{/set}
+<div class="row">
+	<div class="span3">
+		<ul id="folderTree" class="filetree treeview">
+			#{vsbocms.folderTree root:root, tree:folderTree, currentFolder:currentFolder /}
+		</ul>
+	</div>
+	<div class="span13">
+		#{doLayout /}
+	</div>
+</div>
+

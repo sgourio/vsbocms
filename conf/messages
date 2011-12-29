@@ -1,0 +1,13 @@
+# Default vsbocms messages
+# You can specialize this file for each language.
+# For exemple, for french create a messages.fr file
+
+#vsbocms.name=vsbocms
+
+menu.controllers.vsbocms.Cms=Contenu
+menu.controllers.vsbocms.Cms.article=Articles
+
+vsbocms.folder=Folder
+vsbocms.rootFolder=root
+
+vsbocms.create.models.vsbocms.SimpleFolder=Create a simple folder here

@@ -1,0 +1,20 @@
+#{extends 'vsbocms/layout.html' /}
+#{set title:'Folders' /}
+
+<h1 id="newFolder">&{'vsbocms.folder'} &{currentFolder.name}</h1>
+
+#{form @createSimpleFolder()}
+	#{field 'folderName'}
+    <div class="clearfix ${errors.forKey(field.name) ? 'error' : ''}">
+        <label>Folder name *:</label>
+        <div class="input">
+        	<input type="text" name="${field.name}" value="" size="60"/>
+        </div>
+    </div>
+    #{/field}
+    <input type="hidden" name="parentFolderId" value="${currentFolder.id}" id="parentFolderId"/>
+    
+    <div class="actions">
+    	<input type="submit" value="Sauver" class="btn primary"/>
+        	</div>
+#{/form}
