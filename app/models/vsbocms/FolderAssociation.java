@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import play.db.jpa.Model;
 
 @SuppressWarnings("serial")
-@Entity
+@Entity(name="vsbocms_folder_association")
 public class FolderAssociation extends Model{
 
 	public Long elementId;

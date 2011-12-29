@@ -13,6 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import models.vsbocms.FolderAssociation;
 import play.Logger;
 import play.modules.vsbocms.VsboCmsPlugin;
+import play.modules.vsbocms.beans.Article;
 import play.modules.vsbocms.beans.Classifiable;
 import play.modules.vsbocms.beans.Folder;
 
@@ -37,7 +38,7 @@ public class CmsServices {
 	};
 	
 	private Map<Classifiable, List<Classifiable>> contentTree = Collections.synchronizedSortedMap(new TreeMap<Classifiable, List<Classifiable>>());
-	private Map<Long, Classifiable> contentIdMap = Collections.synchronizedMap(new HashMap<Long, Classifiable>());
+	private Map<String, Classifiable> contentIdMap = Collections.synchronizedMap(new HashMap<String, Classifiable>());
 	
 	private CmsServices() {
 	}
@@ -87,6 +88,15 @@ public class CmsServices {
 						}
 						currentList.add(folder);
 						buildFolderTree(folderTree, folder, folderAlreadyTraited);
+					}else if( Article.class.isAssignableFrom(clazz)  ){
+						Method method = clazz.getMethod("findById", Object.class);
+						Article article= (Article) method.invoke(null, association.elementId );
+						List<Classifiable> currentList = folderTree.get(currentRoot);
+						if( currentList == null ){
+							currentList = new ArrayList<Classifiable>();
+							folderTree.put(currentRoot, currentList);
+						}
+						currentList.add(article);
 					}
 				} catch (Exception e) {
 					Logger.error(e, "Error" );
@@ -97,14 +107,14 @@ public class CmsServices {
 		}
 	}
 	
-	public Map<Long, Classifiable> getContentIdMap() {
+	public Map<String, Classifiable> getContentIdMap() {
 		if( this.contentIdMap.isEmpty() ){
 			Lock lock = new ReentrantLock();
 			try{
 				lock.lock();
 				// init the folderIdMap ( id , folder )
 				for ( Classifiable f : this.getFolderTree().keySet()){
-					this.contentIdMap.put(f.getId(), f);
+					this.contentIdMap.put(f.getClass().getName() +"_"+ f.getId(), f);
 				}
 			}finally{
 				lock.unlock();
@@ -118,18 +128,26 @@ public class CmsServices {
 	}
 	
 	public void classify(Classifiable content , Classifiable parentFolder ){
-		FolderAssociation folderAssociation = new FolderAssociation();
-		folderAssociation.classOfElement = content.getClass().getName();
-		folderAssociation.elementId = content.getId();
-		folderAssociation.folderId = parentFolder.getId();
-		folderAssociation.save();
-		List<Classifiable> folderList = contentTree.get(parentFolder);
-		if( folderList == null ){
-			folderList = new ArrayList<Classifiable>();
-			contentTree.put(parentFolder, folderList);
+		
+		List<Classifiable> classifiableList = contentTree.get(parentFolder);
+		if( classifiableList == null ){
+			classifiableList = new ArrayList<Classifiable>();
+			contentTree.put(parentFolder, classifiableList);
 		}
-		folderList.add(content);
-		contentIdMap.put(content.getId(), content);
+		if( !classifiableList.contains(content) ){
+
+			FolderAssociation folderAssociation = new FolderAssociation();
+			folderAssociation.classOfElement = content.getClass().getName();
+			folderAssociation.elementId = content.getId();
+			folderAssociation.folderId = parentFolder.getId();
+			folderAssociation.save();
+			
+			classifiableList.add(content);
+		}else{
+			classifiableList.remove(content);
+			classifiableList.add(content);
+		}
+		contentIdMap.put(content.getClass().getName() +"_"+ content.getId(), content);
 	}
 	
 	public Classifiable findFolderById(Long folderId){

@@ -7,4 +7,8 @@
 	#{set action:folderClass.name.replace("models","controllers") /}
 	<li><a href="${play.mvc.Router.reverse(action+'.edit', urlParameters).url}">&{'vsbocms.create.' + folderClass.name}</a></li>
 #{/list}
+#{list items:articleClassList, as:'articleClass'}
+	#{set action:articleClass.name.replace("models","controllers") /}
+	<li><a href="${play.mvc.Router.reverse(action+'.edit', urlParameters).url}">&{'vsbocms.create.' + articleClass.name}</a></li>
+#{/list}
 </ul>

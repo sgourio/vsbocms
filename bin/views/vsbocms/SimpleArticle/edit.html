@@ -1,0 +1,41 @@
+#{extends 'vsbocms/layout.html' /}
+#{set title:'Folders' /}
+
+#{if simpleArticle}
+	<h1>&{'vsbocms.edit.article', simpleArticle.name}</h1>
+#{/if}
+#{else}
+	<h1>&{'vsbocms.new.article'}</h1>	
+#{/else}
+#{form @createSimpleArticle(simpleArticle?.id)}
+	#{field 'articleName'}
+    <div class="clearfix ${errors.forKey(field.name) ? 'error' : ''}">
+        <label>Article name *:</label>
+        <div class="input">
+        	<input type="text" name="${field.name}" value="${simpleArticle?.articleName}" size="60"/>
+        </div>
+    </div>
+    #{/field}
+    #{field 'title'}
+    <div class="clearfix ${errors.forKey(field.name) ? 'error' : ''}">
+        <label>Title *:</label>
+        <div class="input">
+        	<input type="text" name="${field.name}" value="${simpleArticle?.title}" size="60"/>
+        </div>
+    </div>
+    #{/field}
+    #{field 'content'}
+    <div class="clearfix ${errors.forKey(field.name) ? 'error' : ''}">
+        <label>Content *:</label>
+        <div class="input">
+        	<input type="textarea" name="${field.name}" value="${simpleArticle?.content}" size="140"/>
+        </div>
+    </div>
+    #{/field}
+    <input type="hidden" name="parentFolderId" value="${currentFolder.id}" id="parentFolderId"/>
+    <input type="hidden" name="parentFolderClass" value="${currentFolder.class.name}" id="parentFolderClass"/>
+    
+    <div class="actions">
+    	<input type="submit" value="Sauver" class="btn primary"/>
+    </div>
+#{/form}

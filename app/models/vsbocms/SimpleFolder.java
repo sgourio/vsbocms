@@ -7,7 +7,7 @@ import play.modules.vsbocms.beans.Classifiable;
 import play.modules.vsbocms.beans.Folder;
 
 @SuppressWarnings("serial")
-@Entity
+@Entity(name="vsbocms_simplefolder")
 public class SimpleFolder extends Model implements Folder{
 
 	public String folderName;

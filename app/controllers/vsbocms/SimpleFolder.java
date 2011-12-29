@@ -6,9 +6,9 @@ import services.CmsServices;
 
 public class SimpleFolder extends Cms{
 
-	public static void edit(Long currentFolderId, Long id){
+	public static void edit(Long currentFolderId, String currentFolderClass, Long id){
 		if( currentFolderId != null ){
-			Folder currentFolder = (Folder) CmsServices.getInstance().getContentIdMap().get(currentFolderId);
+			Folder currentFolder = (Folder) CmsServices.getInstance().getContentIdMap().get(currentFolderClass + "_" +currentFolderId);
 			if( currentFolder != null ){
 				renderArgs.put("currentFolder", currentFolder);
 			}
@@ -22,14 +22,14 @@ public class SimpleFolder extends Cms{
 		}
 	}
 	
-	public static void createSimpleFolder(String folderName, Long parentFolderId){
+	public static void createSimpleFolder(String folderName, Long parentFolderId, String parentFolderClass){
 		models.vsbocms.SimpleFolder simpleFolder = new models.vsbocms.SimpleFolder();
 		simpleFolder.folderName = folderName;
 		simpleFolder.save();
 		
-		Classifiable parentFolder = CmsServices.getInstance().getContentIdMap().get(parentFolderId);
+		Classifiable parentFolder = CmsServices.getInstance().getContentIdMap().get(parentFolderClass + "_" + parentFolderId);
 		CmsServices.getInstance().classify(simpleFolder, parentFolder);
 		
-		folder(simpleFolder.id );
+		folder(simpleFolder.id, simpleFolder.getClass().getName() );
 	}
 }

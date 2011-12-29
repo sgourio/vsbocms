@@ -24,14 +24,21 @@ public class Cms extends Backoffice{
 		renderArgs.put("root", root);
 		renderArgs.put("folderTree", folderTree);
 		
+		Map<String, String> urlParameters = new HashMap<String, String>();
 		String idFolder = params.get("currentFolderId");
+		String folderClass = params.get("currentFolderClass");
 		if( StringUtils.isNumeric(idFolder) ){
 			Long currentFolderId = Long.valueOf(idFolder);
-			Folder currentFolder = (Folder) CmsServices.getInstance().getContentIdMap().get(currentFolderId);
+			Folder currentFolder = (Folder) CmsServices.getInstance().getContentIdMap().get(folderClass+"_"+currentFolderId);
 			if( currentFolder != null ){
 				renderArgs.put("currentFolder", currentFolder);
+				urlParameters.put("currentFolderId", idFolder);
+				urlParameters.put("currentFolderClass", currentFolder.getClass().getName());
 			}
 		}
+		renderArgs.put("urlParameters", urlParameters);
+		
+		
 	}
 	
 	@SubMenu
@@ -39,11 +46,10 @@ public class Cms extends Backoffice{
 		render();
 	}
 	
-	public static void folder(Long currentFolderId){
-		List<Class<?>> folderClassList = CmsServices.getInstance().getFolderClassList(); 
-		Map<String, String> urlParameters = new HashMap<String, String>();
-		urlParameters.put("currentFolderId", params.get("currentFolderId"));
-		render(folderClassList, urlParameters);
+	public static void folder(Long currentFolderId, String currentFolderClass){
+		List<Class<?>> folderClassList = CmsServices.getInstance().getFolderClassList();
+		List<Class<?>> articleClassList = CmsServices.getInstance().getArticleClassList(); 
+		render(folderClassList, articleClassList);
 	}
 	
 	
