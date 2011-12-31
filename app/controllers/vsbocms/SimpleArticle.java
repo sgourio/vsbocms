@@ -1,28 +1,34 @@
 package controllers.vsbocms;
 
-import play.modules.vsbocms.beans.Classifiable;
+import play.modules.vsbocms.beans.Article;
 import play.modules.vsbocms.beans.Folder;
-import services.CmsServices;
+import services.vsbocms.CmsServices;
+import beans.vsbocms.TreeNode;
 
 public class SimpleArticle extends Cms{
 	
-	public static void edit(Long currentFolderId, String currentFolderClass, Long id){
-		if( currentFolderId != null ){
-			Folder currentFolder = (Folder) CmsServices.getInstance().getContentIdMap().get(currentFolderClass + "_" + currentFolderId);
-			if( currentFolder != null ){
-				renderArgs.put("currentFolder", currentFolder);
-			}
-		}
+	public static void edit(Long fatherNodeId, Long treeNodeId){
 		
-		if( id == null){
-			render();
+		if( treeNodeId != null ){
+			TreeNode treeNode = CmsServices.getInstance().getTreeNodeMap().get(treeNodeId);
+			if( treeNode != null ){
+				renderArgs.put("currentNode", treeNode);// highlith the current menu folder / or article
+			}
+			Article simpleArticle = (Article) treeNode.getClassifiable();
+			TreeNode fatherNode = treeNode.getFather();
+			render(simpleArticle, fatherNode);
 		}else{
-			models.vsbocms.SimpleArticle simpleArticle = models.vsbocms.SimpleArticle.findById(id);
-			render(simpleArticle);
+			TreeNode fatherNode = CmsServices.getInstance().getTreeNodeMap().get(fatherNodeId);
+			
+			Folder currentFolder = (Folder) fatherNode.getClassifiable();
+			if( currentFolder != null ){
+				renderArgs.put("currentNode", currentFolder); // highlith the current menu folder / or article
+			}
+			render(fatherNode);
 		}
 	}
 	
-	public static void createSimpleArticle(Long id, String articleName, String title, String content, String parentFolderClass, Long parentFolderId){
+	public static void createSimpleArticle(Long id, Long fatherNodeId, String articleName, String title, String content){
 		models.vsbocms.SimpleArticle simpleArticle = null;
 		if( id != null){
 			simpleArticle = models.vsbocms.SimpleArticle.findById(id);
@@ -35,9 +41,9 @@ public class SimpleArticle extends Cms{
 		simpleArticle.title = title;
 		simpleArticle.save();
 		
-		Classifiable parentFolder = CmsServices.getInstance().getContentIdMap().get(parentFolderClass + "_" + parentFolderId);
-		CmsServices.getInstance().classify(simpleArticle, parentFolder);
+		TreeNode father = CmsServices.getInstance().getTreeNodeMap().get(fatherNodeId);
+		CmsServices.getInstance().classify(simpleArticle, father);
 		
-		folder(parentFolderId , parentFolder.getClass().getName());
+		SimpleFolder.edit(null, father.getAssociationId());
 	}
 }

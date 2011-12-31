@@ -1,20 +1,19 @@
 <li>
-#{if _root instanceof play.modules.vsbocms.beans.Folder}
-<span class="folder #{if (_currentFolder != null && _root.id == _currentFolder.id ) }selected#{/if}">&nbsp;<a href="@{vsbocms.Cms.folder(_root.id, _root.class.name)}" id="tree_${_root.id}" >&{_root.name}</a></span>
+#{if _root.isFolder()}
+<span class="folder #{if _current.equals(_root) }selected#{/if}">&nbsp;<a href="${_root.url}" id="tree_${_root.associationId}" >&{_root.name}</a></span>
 #{/if}
-#{if _tree != null && _tree.get(_root) != null}
 <ul>
-#{list items:_tree.get(_root), as:'key' }
+#{list items:_root.children, as:'key' }
 	#{if key != null }
-		#{if key instanceof play.modules.vsbocms.beans.Article}
-		<li>
-			#{set action:key.class.name.replace("models","controllers") /}
-			<span class="file">&nbsp;<a href="${play.mvc.Router.reverse(action+'.edit').url}?currentFolderId=${_root.id}&currentFolderClass=${_root.class.name}&id=${key.id}" id="tree_${key.id}" >&{key.name}</a></span>
+		#{if key.isArticle()}
+		<li class="${key_isLast ?'last':''}">
+			<span class="file #{if _current.equals(key) }selected#{/if}">&nbsp;<a href="${key.url}" id="tree_${key.associationId}" >&{key.name}</a></span>
 		</li>
 		#{/if}
-		#{vsbocms.folderTree root:key, tree:_tree, currentFolder:_currentFolder /}
+		#{else}
+		#{vsbocms.folderTree root:key, current:_current/}
+		#{/else}
 	#{/if}
 #{/list}
 </ul>
-#{/if}
 </li>

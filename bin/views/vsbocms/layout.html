@@ -11,13 +11,14 @@
 	 	});
 	</script>
 #{/set}
+#{get 'specificScripts' /}
 <div class="row">
-	<div class="span3">
+	<div class="span4 leftTree">
 		<ul id="folderTree" class="filetree treeview">
-			#{vsbocms.folderTree root:root, tree:folderTree, currentFolder:currentFolder /}
+			#{vsbocms.folderTree root:root, current:currentNode /}
 		</ul>
 	</div>
-	<div class="span13">
+	<div class="span12">
 		#{doLayout /}
 	</div>
 </div>

@@ -1,21 +1,65 @@
 #{extends 'vsbocms/layout.html' /}
 #{set title:'Folders' /}
 
-<h1 id="newFolder">&{'vsbocms.folder'} &{currentFolder.name}</h1>
+#{if simpleFolder}
+	<h1>&{'vsbocms.edit.simplefolder'} &{simpleFolder.name}</h1>
+#{/if}
+#{else}
+	<h1>&{'vsbocms.new.simplefolder'}</h1>	
+#{/else}
 
-#{form @createSimpleFolder()}
+
+
+#{if simpleFolder}
+
+<h3>&{'vsbocms.simplefolder.content'}</h3>
+#{if treeNode.children.isEmpty()}
+	&{'vsbocms.simplefolder.content.nothing'}
+#{/if}
+#{else}
+<ul>
+#{list items:treeNode.children, as:'key' }
+	<li class="${key_isLast ?'last':''}">
+		#{if key.isArticle()}
+			<span class="file">&nbsp;<a href="${key.url}" id="tree_${key.associationId}" >&{key.name}</a></span>
+		#{/if}
+		#{else}
+			<span class="folder">&nbsp;<a href="${key.url}" id="tree_${key.associationId}" >&{key.name}</a></span>
+		#{/else}
+	</li>
+#{/list}
+</ul>
+#{/else}
+
+<h3>&{'vsbocms.simplefolder.actions'}</h3>
+
+<ul>
+#{list items:folderClassList, as:'folderClass'}
+	#{set action:folderClass.name.replace("models","controllers") /}
+	<li><a href="${play.mvc.Router.reverse(action+'.edit', actionParametersMap).url}">&{'vsbocms.create.' + folderClass.name}</a></li>
+#{/list}
+#{list items:articleClassList, as:'articleClass'}
+	#{set action:articleClass.name.replace("models","controllers") /}
+	<li><a href="${play.mvc.Router.reverse(action+'.edit', actionParametersMap).url}">&{'vsbocms.create.' + articleClass.name}</a></li>
+#{/list}
+</ul>
+#{/if}
+
+<h3>&{'vsbocms.edit.simplefolder.modify.title'}</h3>
+#{form @createSimpleFolder(simpleFolder?.id, treeNode.associationId)}
 	#{field 'folderName'}
     <div class="clearfix ${errors.forKey(field.name) ? 'error' : ''}">
         <label>Folder name *:</label>
         <div class="input">
-        	<input type="text" name="${field.name}" value="" size="60"/>
+        	<input type="text" name="${field.name}" value="${simpleFolder?.folderName}" size="60"/>
         </div>
     </div>
     #{/field}
-    <input type="hidden" name="parentFolderId" value="${currentFolder.id}" id="parentFolderId"/>
-    <input type="hidden" name="parentFolderClass" value="${currentFolder.class.name}" id="parentFolderClass"/>
     
     <div class="actions">
-    	<input type="submit" value="Sauver" class="btn primary"/>
+    	<input type="submit" value="&{'vsbo.button.save'}" class="btn primary"/>
+    	#{if simpleFolder}
+    	<input type="button" value="&{'vsbo.button.delete'}" class="btn danger" onclick="if( confirm ('&{'vsbocms.confirm.delete.folder'}')){window.location.href='@{delete(simpleFolder.id)}'; }else{ return false};"/>
+    	#{/if}
     </div>
 #{/form}

@@ -1,35 +1,61 @@
 package controllers.vsbocms;
 
-import play.modules.vsbocms.beans.Classifiable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import play.modules.vsbocms.beans.Folder;
-import services.CmsServices;
+import services.vsbocms.CmsServices;
+import beans.vsbocms.TreeNode;
 
 public class SimpleFolder extends Cms{
 
-	public static void edit(Long currentFolderId, String currentFolderClass, Long id){
-		if( currentFolderId != null ){
-			Folder currentFolder = (Folder) CmsServices.getInstance().getContentIdMap().get(currentFolderClass + "_" +currentFolderId);
-			if( currentFolder != null ){
-				renderArgs.put("currentFolder", currentFolder);
-			}
-		}
+	public static void edit(Long fatherNodeId, Long treeNodeId){
 		
-		if( id == null){
-			render();
+		if( treeNodeId != null ){
+			TreeNode treeNode = CmsServices.getInstance().getTreeNodeMap().get(treeNodeId);
+			if( treeNode != null ){
+				renderArgs.put("currentNode", treeNode); // highlith the current menu folder
+			}
+			Folder simpleFolder = (Folder) treeNode.getClassifiable();
+			List<Class<?>> folderClassList = CmsServices.getInstance().getFolderClassList();
+			List<Class<?>> articleClassList = CmsServices.getInstance().getArticleClassList();
+
+			Map<String, Object> actionParametersMap = new HashMap<String, Object>();
+			actionParametersMap.put("fatherNodeId", treeNodeId);
+			render(simpleFolder, folderClassList, articleClassList, actionParametersMap, treeNode);
 		}else{
-			models.vsbocms.SimpleFolder simpleFolder = models.vsbocms.SimpleFolder.findById(id);
-			render(simpleFolder);
+			TreeNode treeNode = CmsServices.getInstance().getTreeNodeMap().get(fatherNodeId);
+			if( treeNode != null ){
+				renderArgs.put("currentNode", treeNode); // highlith the current menu folder
+			}
+			render(treeNode, fatherNodeId);
 		}
 	}
 	
-	public static void createSimpleFolder(String folderName, Long parentFolderId, String parentFolderClass){
-		models.vsbocms.SimpleFolder simpleFolder = new models.vsbocms.SimpleFolder();
+	public static void createSimpleFolder(Long id, Long fatherNodeId, String folderName){
+		models.vsbocms.SimpleFolder simpleFolder = null;
+		if( id != null){
+			simpleFolder = models.vsbocms.SimpleFolder.findById(id);
+		}else{
+			simpleFolder = new models.vsbocms.SimpleFolder();
+		}
+		
 		simpleFolder.folderName = folderName;
 		simpleFolder.save();
 		
-		Classifiable parentFolder = CmsServices.getInstance().getContentIdMap().get(parentFolderClass + "_" + parentFolderId);
-		CmsServices.getInstance().classify(simpleFolder, parentFolder);
+		TreeNode fatherNode = CmsServices.getInstance().getTreeNodeMap().get(fatherNodeId);
+		TreeNode child = CmsServices.getInstance().classify(simpleFolder, fatherNode);
 		
-		folder(simpleFolder.id, simpleFolder.getClass().getName() );
+		edit(fatherNodeId, child.getAssociationId() );
+	}
+	
+	
+	public static void delete(Long treeNodeId){
+		if( treeNodeId != null){
+			TreeNode treeNode = CmsServices.getInstance().getTreeNodeMap().get(treeNodeId);
+			CmsServices.getInstance().delete(treeNode);
+		}
+		edit(0L, null);
 	}
 }

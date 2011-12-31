@@ -5,4 +5,7 @@
 #
 # ~~~~
 
-GET     /?                      Module.index
+GET     /?                     Module.index
+*	  /{controller}/{action}/{fatherNodeId}/{treeNodeId}   vsbocms.{controller}.{action}
+*	  /{controller}/{action}/{fatherNodeId}   vsbocms.{controller}.{action}
+*     /{controller}/{action}   vsbocms.{controller}.{action}

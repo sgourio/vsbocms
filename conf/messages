@@ -4,10 +4,21 @@
 
 #vsbocms.name=vsbocms
 
-menu.controllers.vsbocms.Cms=Contenu
-menu.controllers.vsbocms.Cms.article=Articles
+menu.controllers.vsbocms.Cms=Content
+menu.controllers.vsbocms.Cms.index=Management
 
 vsbocms.folder=Folder
 vsbocms.rootFolder=root
 
+vsbocms.new.simplefolder=New simple folder
+vsbocms.edit.simplefolder=Folder 
 vsbocms.create.models.vsbocms.SimpleFolder=Create a simple folder here
+vsbocms.edit.simplefolder.modify.title=Modify this folder
+vsbocms.confirm.delete.folder=Delete this folder, all subfolders and all articles inside this folder? 
+vsbocms.simplefolder.content=Content
+vsbocms.simplefolder.actions=Actions
+vsbocms.simplefolder.content.nothing=Nothing
+
+vsbocms.new.article= Create a new article in folder 
+vsbocms.edit.article=Edit article %s
+vsbocms.create.models.vsbocms.SimpleArticle=Create a simple article here
