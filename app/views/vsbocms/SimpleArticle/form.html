@@ -1,0 +1,30 @@
+#{form @createSimpleArticle(simpleArticle?.id, fatherNode?.id)}
+	#{field 'articleName'}
+    <div class="clearfix ${errors.forKey(field.name) ? 'error' : ''}">
+        <label>Title *:</label>
+        <div class="input">
+        	<input type="text" name="${field.name}" value="${simpleArticle?.articleName}" size="60"/>
+        </div>
+    </div>
+    #{/field}
+    #{field 'content'}
+    <div class="clearfix ${errors.forKey(field.name) ? 'error' : ''}">
+        <label>Content *:</label>
+        <div class="input">
+        	<textarea name="${field.name}" cols="50" rows="10" class="editor">${simpleArticle?.content}</textarea>
+        </div>
+    </div>
+    #{/field}
+    #{field 'tags'}
+    <div class="clearfix ${errors.forKey(field.tags) ? 'error' : ''}">
+        <label>Tags *:</label>
+        <div class="input">
+        	<input class="tags" type="text" name="${field.name}" value="${simpleArticle?.tagString}" size="60"/>
+        </div>
+    </div>
+    #{/field}
+    
+    <div class="actions">
+    	<input type="submit" value="Sauver" class="btn primary"/>
+    </div>
+#{/form}

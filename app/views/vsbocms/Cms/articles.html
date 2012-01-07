@@ -1,0 +1,37 @@
+#{extends 'vsbo/layout.html' /}
+#{set title:'Articles' /}
+
+#{form @articles()}
+	#{field 'tag'}
+    <div class="clearfix ${errors.forKey(field.name) ? 'error' : ''}">
+        <label>Tag filter :</label>
+        <div class="input">
+        	<input type="text" name="${field.name}" value="${field.value}" size="60"/>   <input type="submit" value="&{'vsbocms.button.filter'}" class="btn primary"/>
+        </div>
+    </div>
+    #{/field}
+#{/form}
+
+<table>
+	<thead>
+		<tr><th>Name</th><th>Tags</th><th>Last modified</th></tr>
+	</thead>
+	<tbody>
+#{list items:articleList, as:'article' }
+		<tr>
+			<td><a href="${article.url}">${article.name}</a></td>
+			<td>
+				${article.tags}
+			</td>
+			<td>
+				${article.date?.since()}
+			</td>
+		</tr>	
+#{/list}
+	</tbody>
+</table>
+
+#{list items:taggableClassList, as:'taggableClass'}
+	#{set action:taggableClass.name.replace("models","controllers") /}
+	<li><a href="${play.mvc.Router.reverse(action+'.tagEdit').url}">&{'vsbocms.create.' + taggableClass.name}</a></li>
+#{/list}

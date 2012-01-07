@@ -17,9 +17,9 @@
 	&{'vsbocms.simplefolder.content.nothing'}
 #{/if}
 #{else}
-<ul>
+<ul class="filetree folderContent">
 #{list items:treeNode.children, as:'key' }
-	<li class="${key_isLast ?'last':''}">
+	<li class="expandable ${key_isLast ?'last':''}">
 		#{if key.isArticle()}
 			<span class="file">&nbsp;<a href="${key.url}" id="tree_${key.associationId}" >&{key.name}</a></span>
 		#{/if}

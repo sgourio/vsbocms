@@ -1,6 +1,11 @@
 package models.vsbocms;
 
+import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import play.data.validation.Required;
 import play.db.jpa.Model;
@@ -24,6 +29,15 @@ public class SimpleFolder extends Model implements Folder{
 	public String getName() {
 		return folderName;
 	}
+	
+	@Required
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(updatable = false)
+	public Date creationDate;
+	
+	@Required
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date modificationDate;	
 
 	@Override
 	public int compareTo(Classifiable o) {
@@ -31,6 +45,14 @@ public class SimpleFolder extends Model implements Folder{
 			return -1;
 		}
 		return this.folderName.compareTo(o.getName());
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public Date getModificationDate() {
+		return modificationDate;
 	}
 	
 }

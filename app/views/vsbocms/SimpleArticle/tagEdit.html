@@ -1,0 +1,26 @@
+#{extends 'vsbo/layout.html' /}
+#{set title:'Articles' /}
+#{set 'moreStyles'}
+	<link rel="stylesheet" media="screen" href="@{'/public/stylesheets/tag.css'}">
+#{/set}
+#{set 'moreScripts'}
+	<script type="text/javascript" src="@{'/public/ckeditor/ckeditor.js'}"></script>
+	<script type="text/javascript" src="@{'/public/ckeditor/adapters/jquery.js'}"></script>
+	<script type="text/javascript" src="@{'/public/javascripts/tag.js'}"></script>
+    <script type="text/javascript">
+		$(document).ready(function(){
+			$( 'textarea.editor' ).ckeditor();
+			
+			$('.tags').tagSuggest({
+			    tags: #{verbatim}${existingTags}#{/verbatim}    
+			});
+		});
+	</script>
+#{/set}
+#{if simpleArticle}
+	<h1>&{'vsbocms.edit.article', simpleArticle.name}</h1>
+#{/if}
+#{else}
+	<h1>&{'vsbocms.new.article'}</h1>	
+#{/else}
+#{include '/vsbocms/SimpleArticle/form.html' /}

@@ -81,3 +81,7 @@
 .leftTree ul.filetree{
 	border-right: 1px solid #222;
 }
+
+.folderContent{
+	list-style: none;
+}

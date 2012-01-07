@@ -1,5 +1,6 @@
 package controllers.vsbocms;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,9 +40,11 @@ public class SimpleFolder extends Cms{
 			simpleFolder = models.vsbocms.SimpleFolder.findById(id);
 		}else{
 			simpleFolder = new models.vsbocms.SimpleFolder();
+			simpleFolder.creationDate = new Date();
 		}
 		
 		simpleFolder.folderName = folderName;
+		simpleFolder.modificationDate = new Date();
 		simpleFolder.save();
 		
 		TreeNode fatherNode = CmsServices.getInstance().getTreeNodeMap().get(fatherNodeId);

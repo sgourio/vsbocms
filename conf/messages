@@ -5,7 +5,7 @@
 #vsbocms.name=vsbocms
 
 menu.controllers.vsbocms.Cms=Content
-menu.controllers.vsbocms.Cms.index=Management
+menu.controllers.vsbocms.Cms.folders=Folders
 
 vsbocms.folder=Folder
 vsbocms.rootFolder=root

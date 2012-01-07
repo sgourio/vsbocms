@@ -3,9 +3,13 @@
 #{set 'specificScripts'}
 	<script type="text/javascript" src="@{'/public/ckeditor/ckeditor.js'}"></script>
 	<script type="text/javascript" src="@{'/public/ckeditor/adapters/jquery.js'}"></script>
+	<script type="text/javascript" src="@{'/public/javascripts/tag.js'}"></script>
     <script type="text/javascript">
 		$(document).ready(function(){
 			$( 'textarea.editor' ).ckeditor();
+			$('.tags').tagSuggest({
+			    tags: #{verbatim}${existingTags}#{/verbatim}    
+			});
 		});
 	</script>
 #{/set}
@@ -15,33 +19,4 @@
 #{else}
 	<h1>&{'vsbocms.new.article'} ${fatherNode.name}</h1>	
 #{/else}
-#{form @createSimpleArticle(simpleArticle?.id, fatherNode?.id)}
-	#{field 'articleName'}
-    <div class="clearfix ${errors.forKey(field.name) ? 'error' : ''}">
-        <label>Article name *:</label>
-        <div class="input">
-        	<input type="text" name="${field.name}" value="${simpleArticle?.articleName}" size="60"/>
-        </div>
-    </div>
-    #{/field}
-    #{field 'title'}
-    <div class="clearfix ${errors.forKey(field.name) ? 'error' : ''}">
-        <label>Title *:</label>
-        <div class="input">
-        	<input type="text" name="${field.name}" value="${simpleArticle?.title}" size="60"/>
-        </div>
-    </div>
-    #{/field}
-    #{field 'content'}
-    <div class="clearfix ${errors.forKey(field.name) ? 'error' : ''}">
-        <label>Content *:</label>
-        <div class="input">
-        	<textarea name="${field.name}" cols="50" rows="10" class="editor">${simpleArticle?.content}</textarea>
-        </div>
-    </div>
-    #{/field}
-    
-    <div class="actions">
-    	<input type="submit" value="Sauver" class="btn primary"/>
-    </div>
-#{/form}
+#{include '/vsbocms/SimpleArticle/form.html' /}

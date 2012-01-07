@@ -1,0 +1,24 @@
+# Default vsbocms messages
+# You can specialize this file for each language.
+# For exemple, for french create a messages.fr file
+
+#vsbocms.name=vsbocms
+
+menu.controllers.vsbocms.Cms=Contenu
+menu.controllers.vsbocms.Cms.folders=Folders
+
+vsbocms.folder=Dossion
+vsbocms.rootFolder=racine
+
+vsbocms.new.simplefolder=Nouveau dossier simple
+vsbocms.edit.simplefolder=Dossier
+vsbocms.create.models.vsbocms.SimpleFolder=Créer un nouveau dossier simple ici
+vsbocms.edit.simplefolder.modify.title=Modifier ce dossier
+vsbocms.confirm.delete.folder=Supprimer ce dossier et tous ses sous-dossiers et articles inclus dedans? Attention cette opération est irréversible! 
+vsbocms.simplefolder.content=Contenu
+vsbocms.simplefolder.actions=Actions
+vsbocms.simplefolder.content.nothing=Vide
+
+vsbocms.new.article=Créer un nouvel article dans ce dossier 
+vsbocms.edit.article=Editer l'article %s
+vsbocms.create.models.vsbocms.SimpleArticle=Créer un nouvel article ici
