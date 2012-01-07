@@ -6,6 +6,7 @@
 
 menu.controllers.vsbocms.Cms=Contenu
 menu.controllers.vsbocms.Cms.folders=Folders
+menu.controllers.vsbocms.Cms.articles=Articles
 
 vsbocms.folder=Dossion
 vsbocms.rootFolder=racine
@@ -22,3 +23,5 @@ vsbocms.simplefolder.content.nothing=Vide
 vsbocms.new.article=Créer un nouvel article dans ce dossier 
 vsbocms.edit.article=Editer l'article %s
 vsbocms.create.models.vsbocms.SimpleArticle=Créer un nouvel article ici
+
+vsbocms.button.filter=Filtrer

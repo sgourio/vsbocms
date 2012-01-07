@@ -6,6 +6,7 @@
 
 menu.controllers.vsbocms.Cms=Content
 menu.controllers.vsbocms.Cms.folders=Folders
+menu.controllers.vsbocms.Cms.articles=Articles
 
 vsbocms.folder=Folder
 vsbocms.rootFolder=root
@@ -22,3 +23,5 @@ vsbocms.simplefolder.content.nothing=Nothing
 vsbocms.new.article= Create a new article in folder 
 vsbocms.edit.article=Edit article %s
 vsbocms.create.models.vsbocms.SimpleArticle=Create a simple article here
+
+vsbocms.button.filter=Filter
