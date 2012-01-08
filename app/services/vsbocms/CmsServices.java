@@ -28,6 +28,8 @@ public class CmsServices implements Serializable{
 	private TreeNode rootNode = null;
 	private Map<Long, TreeNode> treeNodeMap = new HashMap<Long, TreeNode>();
 	
+	public static final String CACHE_KEY = "CmsServices_instance";
+	
 	/**
 	 * build the folder tree
 	 * @param folderTree
@@ -96,15 +98,15 @@ public class CmsServices implements Serializable{
 	 * @return
 	 */
 	public static CmsServices getInstance(){
-		CmsServices instance = (CmsServices) Cache.get("CmsServices_instance");
+		CmsServices instance = (CmsServices) Cache.get(CACHE_KEY);
 		if( instance == null ){
 			Lock lock = new ReentrantLock();
 			try{
 				lock.lock();
-				instance = (CmsServices) Cache.get("CmsServices_instance");
+				instance = (CmsServices) Cache.get(CACHE_KEY);
 				if( instance == null ){
 					instance = new CmsServices();
-					Cache.safeSet("CmsServices_instance", instance, "1d");
+					Cache.safeSet(CACHE_KEY, instance, "1d");
 				}
 			}finally{
 				lock.unlock();

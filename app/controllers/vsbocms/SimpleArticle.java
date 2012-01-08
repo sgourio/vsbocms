@@ -2,6 +2,7 @@ package controllers.vsbocms;
 
 import java.util.Date;
 
+import play.cache.Cache;
 import play.modules.vsbocms.beans.Article;
 import play.modules.vsbocms.beans.Folder;
 import services.vsbocms.CmsServices;
@@ -60,9 +61,11 @@ public class SimpleArticle extends Cms{
 			CmsServices.getInstance().classify(simpleArticle, father);
 			
 			SimpleFolder.edit(null, father.getAssociationId());
-		}else{
+		}else if( id == null){
 			TreeNode father = CmsServices.getInstance().getRootNode();
 			CmsServices.getInstance().classify(simpleArticle, father);
+			Cms.articles(null);
+		}else{
 			Cms.articles(null);
 		}
 	}
@@ -77,5 +80,22 @@ public class SimpleArticle extends Cms{
 			render(simpleArticle, existingTags);
 		}
 		render( existingTags );
+	}
+	
+	public static void delete(Long id, Long fatherNodeId){
+		models.vsbocms.SimpleArticle simpleArticle = null;
+		if( id != null){
+			simpleArticle = models.vsbocms.SimpleArticle.findById(id);
+			simpleArticle.delete();
+			Cache.safeDelete(CmsServices.CACHE_KEY); // refresh tree cache
+		}
+		
+		if( fatherNodeId != null ){
+			TreeNode father = CmsServices.getInstance().getTreeNodeMap().get(fatherNodeId);
+			SimpleFolder.edit(null, father.getAssociationId());
+		}else{
+			Cms.articles(null);
+		}
+		
 	}
 }

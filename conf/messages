@@ -25,3 +25,5 @@ vsbocms.edit.article=Edit article %s
 vsbocms.create.models.vsbocms.SimpleArticle=Create a simple article here
 
 vsbocms.button.filter=Filter
+
+vsbocms.confirm.delete.article=Delete this article ?
