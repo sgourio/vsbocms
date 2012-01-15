@@ -58,8 +58,10 @@ public class Cms extends Backoffice{
 			}
 		}else{
 			Set<Taggable> taggableList = CmsServices.getInstance().getTaggableArticleMap().get(tag);
-			for( Taggable t : taggableList ){
-				articleList.add(new ArticleRowBean(t));
+			if( taggableList != null ){
+				for( Taggable t : taggableList ){
+					articleList.add(new ArticleRowBean(t));
+				}
 			}
 		}
 		

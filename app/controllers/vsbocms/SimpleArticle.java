@@ -59,11 +59,13 @@ public class SimpleArticle extends Cms{
 		if( fatherNodeId != null ){
 			TreeNode father = CmsServices.getInstance().getTreeNodeMap().get(fatherNodeId);
 			CmsServices.getInstance().classify(simpleArticle, father);
+			CmsServices.getInstance().refreshTaggableList(simpleArticle);
 			
 			SimpleFolder.edit(null, father.getAssociationId());
 		}else if( id == null){
 			TreeNode father = CmsServices.getInstance().getRootNode();
 			CmsServices.getInstance().classify(simpleArticle, father);
+			CmsServices.getInstance().refreshTaggableList(simpleArticle);
 			Cms.articles(null);
 		}else{
 			Cms.articles(null);

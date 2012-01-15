@@ -354,5 +354,23 @@ public class CmsServices implements Serializable{
 			}
 		}
 	}
+	
+	/**
+	 * Refresh tag list with the new article
+	 * @param taggable
+	 */
+	public void refreshTaggableList(Taggable taggable){
+		Set<String> myTags = taggable.getTagSet();
+		for( String tag : myTags ){
+			allTagSet.add(tag);
+			Set<Taggable> tagList = taggableArticleMap.get(tag);
+			if( tagList == null ){
+				tagList = new HashSet<Taggable>();
+				taggableArticleMap.put(tag, tagList);
+			}
+			tagList.add(taggable);
+		}
+		
+	}
 }
 
