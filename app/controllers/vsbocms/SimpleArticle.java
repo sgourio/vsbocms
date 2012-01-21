@@ -55,17 +55,16 @@ public class SimpleArticle extends Cms{
 		simpleArticle.save();
 		
 		CmsServices.getInstance().getAllExistingTagList().addAll(simpleArticle.getTagSet());
+		CmsServices.getInstance().refreshTaggableList(simpleArticle);
 		
 		if( fatherNodeId != null ){
 			TreeNode father = CmsServices.getInstance().getTreeNodeMap().get(fatherNodeId);
 			CmsServices.getInstance().classify(simpleArticle, father);
-			CmsServices.getInstance().refreshTaggableList(simpleArticle);
 			
 			SimpleFolder.edit(null, father.getAssociationId());
 		}else if( id == null){
 			TreeNode father = CmsServices.getInstance().getRootNode();
 			CmsServices.getInstance().classify(simpleArticle, father);
-			CmsServices.getInstance().refreshTaggableList(simpleArticle);
 			Cms.articles(null);
 		}else{
 			Cms.articles(null);

@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+
 import play.Logger;
 import play.modules.vsbo.Menu;
 import play.modules.vsbo.SubMenu;
@@ -44,7 +46,7 @@ public class Cms extends Backoffice{
 	@SubMenu
 	public static void articles(String tag){
 		List<ArticleRowBean> articleList = new ArrayList<ArticleRowBean>();
-		if( tag == null ){
+		if( StringUtils.isEmpty(tag) ){
 			for(Class<?> clazz : CmsServices.getInstance().getTaggableClassList() ){
 				try {
 					Method method = clazz.getMethod("findAll");
