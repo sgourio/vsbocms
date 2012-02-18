@@ -1,11 +1,11 @@
-self: play -> vsbocms 0.5
+self: play -> vsbocms 0.6
 
     
 require:
     - play
-    - vsbo -> vsbo 0.3
+    - vsbo -> vsbo 0.4
     
-repositories:
+repositories:   
 - myGitHub:
     type : http
     artifact: "https://github.com/sgourio/vsbo/raw/master/dist/[module]-[revision].zip"

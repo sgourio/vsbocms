@@ -12,7 +12,7 @@ public class ArticleRowBean implements Comparable<ArticleRowBean>{
 	private String url = null; // url to edit
 	private String name = null;
 	private Date date = null;
-	private String tags = null;
+	private String tags = null; 
 	
 	
 	
