@@ -1,9 +1,9 @@
-self: play -> vsbocms 0.6
+self: play -> vsbocms 0.7
 
     
 require:
     - play
-    - vsbo -> vsbo 0.4
+    - vsbo -> vsbo 0.5
     
 repositories:   
 - myGitHub:

@@ -6,13 +6,14 @@
     <div class="clearfix ${errors.forKey(field.name) ? 'error' : ''}">
         <label>Tag filter :</label>
         <div class="input">
-        	<input type="text" name="${field.name}" value="${field.value}" size="60"/>   <input type="submit" value="&{'vsbocms.button.filter'}" class="btn primary"/>
+        	<input type="text" name="${field.name}" value="${field.value}" size="60"/>   <input type="submit" value="&{'vsbocms.button.filter'}" class="btn btn-primary"/>
         </div>
     </div>
     #{/field}
 #{/form}
 
-<table>
+#{if !articleList?.isEmpty()}
+<table class="table table-striped">
 	<thead>
 		<tr><th>Name</th><th>Tags</th><th>Last modified</th></tr>
 	</thead>
@@ -30,6 +31,7 @@
 #{/list}
 	</tbody>
 </table>
+#{/if}
 
 #{list items:taggableClassList, as:'taggableClass'}
 	#{set action:taggableClass.name.replace("models","controllers") /}

@@ -57,7 +57,7 @@
     #{/field}
     
     <div class="actions">
-    	<input type="submit" value="&{'vsbo.button.save'}" class="btn primary"/>
+    	<input type="submit" value="&{'vsbo.button.save'}" class="btn btn-primary"/>
     	#{if simpleFolder}
     	<input type="button" value="&{'vsbo.button.delete'}" class="btn danger" onclick="if( confirm ('&{'vsbocms.confirm.delete.folder'}')){window.location.href='@{delete(simpleFolder.id)}'; }else{ return false};"/>
     	#{/if}
