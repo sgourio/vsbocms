@@ -1,6 +1,8 @@
 #{extends 'vsbo/layout.html' /}
 #{set title:'Articles' /}
 
+
+
 #{form @articles()}
 	#{field 'tag'}
     <div class="clearfix ${errors.forKey(field.name) ? 'error' : ''}">
@@ -11,6 +13,11 @@
     </div>
     #{/field}
 #{/form}
+
+#{list items:taggableClassList, as:'taggableClass'}
+	#{set action:taggableClass.name.replace("models","controllers") /}
+	<a href="${play.mvc.Router.reverse(action+'.tagEdit').url}" class="btn">&{'vsbocms.create.' + taggableClass.name}</a>
+#{/list}
 
 #{if !articleList?.isEmpty()}
 <table class="table table-striped">
@@ -33,7 +40,3 @@
 </table>
 #{/if}
 
-#{list items:taggableClassList, as:'taggableClass'}
-	#{set action:taggableClass.name.replace("models","controllers") /}
-	<li><a href="${play.mvc.Router.reverse(action+'.tagEdit').url}">&{'vsbocms.create.' + taggableClass.name}</a></li>
-#{/list}
